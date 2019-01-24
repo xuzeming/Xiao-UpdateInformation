@@ -1,0 +1,38 @@
+	div{
+		margin:0 auto; 
+		width:1200px; 
+		height:600px; 
+		text-align: center;
+	}
+	.tab{
+		margin:auto;
+	}
+	caption {
+		font-size: 25px;
+		color: #FF6633;
+	}
+	tr{
+		line-height: 80px;
+	}
+	input {
+		width: 250px;
+		height: 25px;
+	}
+	.code1{
+		
+		width: 150px;
+		height: 25px;
+	}
+	.code2{
+		color: white;
+		width: 100px;
+		height: 35px;
+		background-color: #FF6633;
+	}
+	.alter {
+		font-size:25px ;
+		color: white;
+		width: 150px;
+		height: 40px;
+		background-color: #FF6633;
+	}

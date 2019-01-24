@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.mapper.UserMapper">
+	<select id="selectByUsernameAndPassword" resultType="User">
+		select * from  tuser where username = #{0} and password = #{1}
+		and deleteFlag = 1
+	</select>
+</mapper>	

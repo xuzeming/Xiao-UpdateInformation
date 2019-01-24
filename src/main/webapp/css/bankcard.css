@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+/*整体*/
+#whole {
+	width: 1195px;
+	margin: auto;
+	height: 800px;
+}
+
+.head {
+	height: 50px;
+	width: 100%;
+	margin-top: 10px;
+}
+
+.head-one {
+	width: 10px;
+	height: 10px;
+	margin-top: 15px;
+	float: left;
+	margin-left: 60px;
+	background-color: red;
+}
+
+.head-two {
+	float: left;
+	margin-top: 5px;
+	margin-left: 10px;
+}
+
+.tail {
+	margin: auto;
+	width: 90%;
+	margin-top: 40px;
+	text-align: center;
+}
+
+table {
+	width: 100%;
+}
+
+th {
+	height: 50px;
+}
+
+tr {
+	height: 40px;
+}

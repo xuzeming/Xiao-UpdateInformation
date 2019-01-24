@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.SecuritiesSystem.dao.UserAccountDao">
+	<select id="queryUserAccountByUserId" parameterType="Integer" resultType="com.zl.SecuritiesSystem.entity.UserAccount">
+		select
+			Account_ID as accountId,
+			User_ID as userId,
+			Account_Num as accountNum,
+			Account_Balance as accountBalance,
+			Account_Open_Time as accountOpenTime,
+			Transation_PWD as transationPwn,
+			Capital_PWD as capitalPwn,
+			Org_ID as orgId,
+			Sh_Account_num as shAccountNum,
+			Sz_Account_num as szAccountNum
+		from User_Account
+		where User_Id = #{userId}
+	</select>
+	
+	<update id="updateTwoPwdByUserId">
+		update User_Account
+		set
+			Transation_PWD = #{dealPwd},
+			Capital_PWD = #{billPwd}
+		where User_ID = #{userId}
+	</update>
+
+</mapper>

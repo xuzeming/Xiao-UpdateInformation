@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.SecuritiesSystem.dao.UserCentersDao">
+	<select id="queryUserInfoByUserId" parameterType="Integer" resultType="com.zl.SecuritiesSystem.entity.UserCenters">
+		select 
+			User_Tel as userTel,
+			User_PWD  as userPwd
+		from User_Centers
+		where User_ID = #{userId}
+	</select>
+	
+	<update id="updateUserPwdByUserId">
+		update User_Centers
+		set User_PWD = #{newPwd}
+		where User_ID = #{userId}
+	</update>
+	
+	<select id="phoneNumOfLogUser" parameterType="Integer" resultType="com.zl.SecuritiesSystem.entity.UserCenters">
+		select  User_Tel as	userTel
+		from User_Centers
+		where User_Id = #{userId}
+	</select>
+	
+</mapper>

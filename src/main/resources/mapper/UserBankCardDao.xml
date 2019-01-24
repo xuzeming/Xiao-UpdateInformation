@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zl.SecuritiesSystem.dao.UserBankCardDao">
+	
+	<insert id="addUnion">
+		insert 
+		into 
+		User_Bank_Card 
+		values(
+			#{cardId}, 
+			#{userId},
+			null, null, null, null, null
+		)
+	</insert>
+	
+	<delete id="deleteUnionByCardId" parameterType="Integer">
+		delete from User_Bank_Card where Card_Id = #{cardId}
+	</delete>
+	
+	<select id="cardIsExit" parameterType="Integer" resultType="Integer">
+		select count(1) from User_Bank_Card where card_Id = #{cardId}
+	</select>
+	
+</mapper>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>登录页面</title>
+<script type="text/javascript"
+	src='http://localhost:8080/Xiao-LoginAndRegister/bootstrap/jquery.js'></script>
+<link href='http://localhost:8080/Xiao-LoginAndRegister/bootstrap/css/bootstrap.css'
+	rel="stylesheet" />
+<script type="text/javascript"
+	src='http://localhost:8080/Xiao-LoginAndRegister/bootstrap/js/bootstrap.js'></script>
+<script type="text/javascript"
+	src='http://localhost:8080/Xiao-LoginAndRegister/js/jquery.cookie.js'></script>
+<script type="text/javascript">
+
+	$(function() {
+		/*页面加载完成看是否有勾选记住密码 */
+		 $("#username").val($.cookie("usernameCookie"));
+		$("#password").val($.cookie("passwordCookie")); 
+	    if ($.cookie("isremenberCookie")=="true") {
+	    	$("#isremenber").prop("checked", true);
+		}  
+		$("#loginBnt").click(function() {
+							var username = $("#username").val();
+							var password = $("#password").val();
+							//var isremenber = $("#isremenber").get(0).checked;
+							if ($.trim(username) == "") {
+								alert("用户名不为空...");
+								return;
+							}
+							if ($.trim(password) == "") {
+								alert("密码不为空...");
+								return;
+							}
+							$.ajax({
+									url : "http://localhost:8080/Xiao-LoginAndRegister/user/login.action",
+									data : "username=" + username
+												+ "&password=" + password,
+									type : "post",
+									dataType : "text",
+									success : function(rs) {
+									$("#errorMsg").text("");
+									if (rs == "success") {
+										if ($("#isremenber").is(":checked")) {
+											$.cookie('usernameCookie', username, { expires: 7, path: '/' });
+											$.cookie('passwordCookie', password, { expires: 7, path: '/' });
+											$.cookie('isremenberCookie',$("#isremenber").is(":checked"), { expires: 7, path: '/' });
+										}else{
+											/* $.removeCookie('usernameCookie',{ path: '/'}); */
+											$.removeCookie('passwordCookie',{ path: '/'});
+											$.removeCookie('isremenberCookie',{ path: '/'});
+										}
+										location.href = "http://www.baidu.com";
+									} else {
+										$("#errorMsg").text("用户名或者密码不正确");
+									}
+										}
+							})
+				})
+	})	
+	
+	
+</script>
+<style type="text/css">
+	h3 {
+		text-align: center;
+		margin-bottom: 40px;
+		margin-top: 30px;
+	}
+
+	#loginBody {
+		width: 450px;
+		margin: 0px auto;
+	}
+	#logdiv{
+		text-align: center;
+	}
+	#all{
+		margin-top: 160px;
+	}
+</style>
+</head>
+<body>
+	<div id="all">
+		<h3> &nbsp;学员管理系统登录</h3>
+		<div id="loginBody">
+			<form action="" method="post" class="form-horizontal" role="form">
+				<div class="form-group">
+					<label for="firstname" class="col-sm-2 control-label">用户名:</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="username"
+							placeholder="请输入用户名" name="username" size="10">
+						
+					</div>
+					<a  href="http://localhost:7777/employee/queryRegisterInfo.action" >免费注册</a>
+				</div>
+				<div class="form-group" >
+					<label for="inputPassword" class="col-sm-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
+					<div class="col-sm-8">
+						<input type="password" class="form-control" id="password"
+							placeholder="请输入密码" size="10">
+						
+					</div>
+					<a class="reg">找回密码</a>
+				</div>
+				
+				<div class="form-group" >
+				<div class="col-sm-offset-2 col-sm-8" id="logdiv">
+				<input type="checkbox"  id="isremenber" size="5">&nbsp;&nbsp;<font size="3px">记住密码</font>&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="checkbox"  id="autoLog" size="5">&nbsp;&nbsp;<font size="3px">自动登录</font>
+				</div>
+				</div>
+				<span id="errorMsg" style="color: red"></span>
+				<div class="form-group" >
+					<div class="col-sm-offset-2 col-sm-8" id="logdiv">
+						<button type="button" class="btn btn-primary btn-block" id="loginBnt">登录</button>
+						<!-- <button type="button" class="btn btn-primary" id="registerBnt">注册</button> -->
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
