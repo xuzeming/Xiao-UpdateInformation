@@ -103,7 +103,7 @@ public class CardManagerController {
 		//这里需要从登录时设置的session中获取数据
 		UserCenters userCenters = (UserCenters) request.getSession().getAttribute("user");		
 		if (userCenters!=null) {
-			return userCenters;
+			return userCenters; 
 		}
 		//TODO
 		//这里是由于没有整合,所以我们是无法获取user的session,因此在这里我们直接返回一个User对象,后面整合了,直接改成null即可
@@ -200,7 +200,8 @@ public class CardManagerController {
 	private boolean cardIsUnion(Integer cardId) {
 		Integer effectedNum = userBankCardService.cardIsExit(cardId);
 		if (effectedNum > 0) {
-			return false;
+			//提交的项目这时写错了
+			return true;
 		}
 		return false;
 	}
@@ -209,6 +210,8 @@ public class CardManagerController {
 	/**
 	 * 校验用户输入的数据,与其在银行中存在的银行卡数据是否一致,
 	 * 且当前登录用户的姓名必须与其银行卡的姓名, 输入的姓名一致
+	 * 一致返回true
+	 * 不一致返回false
 	 * @param bankCard
 	 * @param bankCardInBank
 	 * @param userLoginName
@@ -230,7 +233,12 @@ public class CardManagerController {
 		return false;
 	}
 	
-	//获取后台传递过来撤销bankCard对象
+	/**
+	 * 获取前台传递过来的bankcard对象
+	 * 并
+	 * @param request
+	 * @return
+	 */
 	private BankCard getBankCard(HttpServletRequest request) {
 		BankCard bankCard = new BankCard();
 		bankCard.setCardBalance(new BigDecimal("0"));//初始化余额为零
@@ -356,8 +364,11 @@ public class CardManagerController {
 		}
 	}
 	
-	//有两个都需要用到这个方法,固提取出来
-	//获取用户的手机号和密码
+	/**
+	 * 获得用户的手机号和登录密码,便于校验, 
+	 * @param userId
+	 * @return
+	 */
 	public UserCentersExecution getPhoneAndPwd(Integer userId) {
 		UserCentersExecution userCentersExecution = new UserCentersExecution();
 		userCentersExecution = userCentersService.getUserInfo(userId);
@@ -413,7 +424,9 @@ public class CardManagerController {
 	
 	/**
 	 * 更新用户账户的信息, 
-	 * 1, 校验用户是否已经登录, 
+	 * 1, session中当前的用户, 为空,则说明没有登录, 返回. 存在则进行下一步
+	 * 2, 校验输入的手机验证码是否与服务器发送的验证码一致, 不一致就返回false
+	 * 3, 校验前台传递过来的资金密码与交易密码是否为空,若为空就不进行修改
 	 * @param request
 	 * @return
 	 */
@@ -447,6 +460,14 @@ public class CardManagerController {
 		}
 	}
 	
+	/**
+	 * 查找用户的手机号, 
+	 * 1, session中当前的用户, 为空,则说明没有登录, 返回. 存在则进行下一步
+	 * 2, 通过登录用户的id进行查询手机号
+	 * 3, 对查找的结果进行判断
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/findphonenumofuser", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> findPhoneNumOfUser(HttpServletRequest request){
